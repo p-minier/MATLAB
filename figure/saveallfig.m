@@ -41,14 +41,20 @@ if folder_path_char(end) ~= '/'
 end
 [~, ~] = mkdir(folder_path);
 figure_list = findobj("type", "figure");
-for fig_id = 1:numel(figure_list)
+for fig_i = 1:numel(figure_list)
+    fig_id = numel(figure_list) - fig_i + 1;
+    % -- deepcopy of the figure to remove unwanted elements to save,
+    % -- without modifying the original plot (title and subtitle here).
+    fig_original = figure_list(fig_i);
+    fig = copy(fig_original);
+    set(fig, "visible", "off")
     % -- get subplot of the current figure
-    fig = figure_list(fig_id);
     handler_list = get(fig, "children");
     ploting_list = findobj(handler_list, "type", "axes");
     ploting_numel = numel(ploting_list);
-    for plot_id = 1:ploting_numel
-        ploting = ploting_list(plot_id);
+    for plot_i = 1:ploting_numel
+        plot_id = ploting_numel - plot_i + 1;
+        ploting = ploting_list(plot_i);
         % -- remove unwanted element 
         delete(ploting.Subtitle) % for me I prefer writing titles
         delete(ploting.Title)    % directly in my LaTex documents
@@ -56,11 +62,12 @@ for fig_id = 1:numel(figure_list)
         if ploting_numel > 1
             fname = "fig" + fig_id + "_" + plot_id + ".pdf";
         else
-            fname = "fig" + fig_id + ".pdf";
+            fname = "fig" + fig_i + ".pdf";
         end
         fpath = folder_path + fname;
         % -- saving the (sub)figure in a file
         exportgraphics(ploting, fpath)
     end
+    delete(fig)
 end
 end
