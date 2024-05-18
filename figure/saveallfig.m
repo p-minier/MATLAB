@@ -62,7 +62,7 @@ for fig_i = 1:numel(figure_list)
         if ploting_numel > 1
             fname = "fig" + fig_id + "_" + plot_id + ".pdf";
         else
-            fname = "fig" + fig_i + ".pdf";
+            fname = "fig" + fig_id + ".pdf";
         end
         fpath = folder_path + fname;
         % -- saving the (sub)figure in a file
