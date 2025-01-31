@@ -16,6 +16,7 @@ function samples = randn_trn(P, mu, gamma)
 %   Méthode :
 %   La génération est basée sur la fonction de répartition inverse.
 
-    Kt = 1/2*(1+erf(sqrt(gamma/2)*mu));
+    % Kt = 1/2*(1+erf(sqrt(gamma/2)*mu));
+    Kt = 1/2*(2-erfc(sqrt(gamma/2)*mu));
     samples = mu + sqrt(2/gamma)*erfinv(1+2*Kt*(rand(P, 1)-1));
 end
